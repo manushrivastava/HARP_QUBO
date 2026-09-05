@@ -1,0 +1,7 @@
+numpy==1.26.4
+dimod==0.12.21
+dwave-neal==0.6.0
+dwave-samplers==1.7.0
+ortools==9.9.3963
+tqdm==4.67.3
+pandas==2.3.3
