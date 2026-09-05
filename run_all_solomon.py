@@ -68,7 +68,7 @@ def main():
     parser.add_argument("--ortools-time-limit", type=int, default=30)
     parser.add_argument("--num-seeds", type=int, default=8)
     parser.add_argument("--seed-base", type=int, default=601)
-    parser.add_argument("--lns-iterations", type=int, default=120)
+    parser.add_argument("--lns-iterations", type=int, default=220)
     parser.add_argument("--max-exact-n", type=int, default=700)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--output-dir", default="results/multi_seed")
@@ -114,7 +114,8 @@ def main():
     with open(summary_csv, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow([
-            "instance", "keep", "K", "customers", "num_seeds", "pool_size",
+            "instance", "family", "keep", "K", "customers", "num_seeds",
+            "pool_size_before_cap", "master_pool_cap", "pool_size",
             "best_single_lns_score",
             "ortools_seconds", "ortools_solved", "ortools_score",
             "exact_seconds", "exact_feasible", "exact_score",
@@ -128,7 +129,8 @@ def main():
             neal = r.get("neal", {})
             swap = r.get("swap_annealer", {})
             w.writerow([
-                r["instance"], r["keep"], r["K"], r["customers"], r["num_seeds"], r["pool_size"],
+                r["instance"], r.get("family"), r["keep"], r["K"], r["customers"], r["num_seeds"],
+                r.get("pool_size_before_cap"), r.get("master_pool_cap"), r["pool_size"],
                 r["best_single_lns_score"],
                 ortools.get("seconds"), ortools.get("solved"), ortools.get("score"),
                 exact.get("seconds"), exact.get("feasible"), exact.get("score"),
@@ -136,6 +138,59 @@ def main():
                 swap.get("seconds"), swap.get("valid"), swap.get("restarts"), swap.get("best_score"),
                 r.get("total_seconds"),
             ])
+
+    # --- family-wise summary (R / C / RC), matching the manuscript's reporting style ---
+    family_summary_csv = os.path.join(args.output_dir, "family_summary.csv")
+    families = {}
+    for r in all_results:
+        fam = r.get("family", "UNKNOWN")
+        families.setdefault(fam, []).append(r)
+
+    def _mean(values):
+        values = [v for v in values if v is not None]
+        return sum(values) / len(values) if values else None
+
+    with open(family_summary_csv, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow([
+            "family", "n_cases",
+            "exact_feasible_rate", "mean_exact_score",
+            "mean_neal_valid_rate", "mean_neal_best_score",
+            "mean_swap_valid_rate", "mean_swap_best_score",
+            "ortools_solved_rate", "mean_ortools_score",
+            "n_beat_or_tied_ortools",
+        ])
+        for fam in sorted(families):
+            rows = families[fam]
+            n = len(rows)
+            exact_feas = [1.0 if r.get("exact", {}).get("feasible") else 0.0 for r in rows]
+            exact_scores = [r.get("exact", {}).get("score") for r in rows]
+            neal_rates = [
+                (r.get("neal", {}).get("valid_samples") or 0) / (r.get("neal", {}).get("num_reads") or 1)
+                for r in rows
+            ]
+            neal_scores = [r.get("neal", {}).get("best_score") for r in rows]
+            swap_rates = [
+                (r.get("swap_annealer", {}).get("valid") or 0) / (r.get("swap_annealer", {}).get("restarts") or 1)
+                for r in rows
+            ]
+            swap_scores = [r.get("swap_annealer", {}).get("best_score") for r in rows]
+            ort_solved = [1.0 if r.get("ortools", {}).get("solved") else 0.0 for r in rows]
+            ort_scores = [r.get("ortools", {}).get("score") for r in rows]
+            n_beat_ortools = sum(
+                1 for r in rows
+                if r.get("exact", {}).get("score") is not None and r.get("ortools", {}).get("score") is not None
+                and r["exact"]["score"] <= r["ortools"]["score"] + 1e-6
+            )
+            w.writerow([
+                fam, n,
+                _mean(exact_feas), _mean(exact_scores),
+                _mean(neal_rates), _mean(neal_scores),
+                _mean(swap_rates), _mean(swap_scores),
+                _mean(ort_solved), _mean(ort_scores),
+                n_beat_ortools,
+            ])
+    print(f"Wrote family-wise summary ({len(families)} families) -> {family_summary_csv}", flush=True)
 
     if failures:
         failures_path = os.path.join(args.output_dir, "failures.json")

@@ -56,10 +56,24 @@ from route_pool_qubo_vrptw import (
     solve_route_pool_qubo,
 )
 from probe_strong_route_pool_repair import lns_route_sets, add_route_set
+from route_repair import standalone_improve_routes
 from swap_move_annealer import swap_anneal
 from compare_with_ortools import solve_case
 
 DEFAULT_SOL_DIR = os.path.join(os.path.dirname(__file__), "data", "solomon-100")
+
+
+def family_of(instance_name):
+    """R / C / RC family from the instance name prefix (rc.. before r.., since
+    'rc101' also starts with 'r')."""
+    name = instance_name.lower()
+    if name.startswith("rc"):
+        return "RC"
+    if name.startswith("r"):
+        return "R"
+    if name.startswith("c"):
+        return "C"
+    return "UNKNOWN"
 
 
 def build_args(parser=None):
@@ -70,17 +84,20 @@ def build_args(parser=None):
     parser.add_argument("--tw-weight", type=float, default=6.0)
     parser.add_argument("--slack-vehicles", type=int, default=0)
 
-    # construction-stage "starts" for LNS
-    parser.add_argument("--construction-random-partitions", type=int, default=180)
-    parser.add_argument("--construction-max-routes", type=int, default=900)
+    # construction-stage "starts" for LNS -- matches the manuscript's Algorithm 2
+    # (240 seeded-random partitions, retain up to 1200, select 90 lowest-score as starts)
+    parser.add_argument("--construction-random-partitions", type=int, default=240)
+    parser.add_argument("--construction-max-routes", type=int, default=1200)
     parser.add_argument("--construction-seed", type=int, default=84)
-    parser.add_argument("--num-starts", type=int, default=150)
+    parser.add_argument("--num-starts", type=int, default=90)
 
-    # multi-seed LNS campaign
+    # multi-seed LNS campaign -- 220 destroy/repair trials per start, retain the
+    # 180 lowest-score valid sets (manuscript's per-seed recipe); num-seeds is
+    # THIS project's own extension (the paper itself uses one seed)
     parser.add_argument("--num-seeds", type=int, default=8)
     parser.add_argument("--seed-base", type=int, default=601)
-    parser.add_argument("--lns-iterations", type=int, default=120)
-    parser.add_argument("--keep-lns-sets", type=int, default=200)
+    parser.add_argument("--lns-iterations", type=int, default=220)
+    parser.add_argument("--keep-lns-sets", type=int, default=180)
     parser.add_argument("--destroy-strategies", default="random,late,mixed")
     parser.add_argument("--repair-modes", default="best,regret,random_best")
     parser.add_argument("--repair-weights", default="6,8,10,12,15")
@@ -88,6 +105,20 @@ def build_args(parser=None):
     parser.add_argument("--due-order-weight", type=float, default=0.0)
     parser.add_argument("--insertion-noise", type=float, default=0.0)
     parser.add_argument("--local-search-passes", type=int, default=1)
+
+    # guarded repair on the top-N retained LNS sets per seed (manuscript: top 12)
+    parser.add_argument("--guarded-repair-sets", type=int, default=12)
+    parser.add_argument("--guarded-repair-tw-weight", type=float, default=10.0)
+    parser.add_argument("--guarded-local-passes", type=int, default=2)
+    parser.add_argument("--guarded-inter-route-passes", type=int, default=1)
+
+    # master-pool cap after multi-seed merging -- manuscript uses a family-
+    # dependent cap (1400 for R-family, 600 for C/RC-family); pass
+    # --master-pool-cap to override with one fixed number for every instance
+    parser.add_argument("--master-pool-cap-r", type=int, default=1400)
+    parser.add_argument("--master-pool-cap-c-rc", type=int, default=600)
+    parser.add_argument("--master-pool-cap", type=int, default=None,
+                         help="override: use this cap for every instance regardless of family")
 
     # exact solver cutoff
     parser.add_argument("--max-exact-n", type=int, default=700,
@@ -217,17 +248,59 @@ def run(args):
         for row in lns_sets:
             add_route_set(route_map, inst, row["routes"], row["source"], args.tw_weight)
 
+        # guarded repair on this seed's top --guarded-repair-sets LNS sets
+        # (manuscript Algorithm 2, lines 17-21: intra-route + relocate + swap
+        # improvement applied only to the strongest few sets, then their
+        # constituent routes are added to the shared candidate pool too)
+        guarded_args = SimpleNamespace(
+            tw_weight=args.tw_weight, repair_tw_weight=args.guarded_repair_tw_weight,
+            local_search_passes=args.guarded_local_passes,
+            inter_route_passes=args.guarded_inter_route_passes,
+        )
+        n_guarded_accepted = 0
+        for row in lns_sets[: args.guarded_repair_sets]:
+            repaired = standalone_improve_routes(inst, row["routes"], guarded_args)
+            covered = set()
+            ok = True
+            for route in repaired:
+                cs = set(route_key(route))
+                if covered & cs:
+                    ok = False
+                    break
+                covered |= cs
+            if ok and covered == set(inst["kept_ids"]):
+                n_guarded_accepted += 1
+                add_route_set(route_map, inst, repaired, f"{row['source']}_guarded", args.tw_weight)
+        print(f"  seed={seed}: guarded repair accepted {n_guarded_accepted}/"
+              f"{min(args.guarded_repair_sets, len(lns_sets))} sets", flush=True)
+
         merged_pool = sorted(route_map.values(), key=lambda r: r["score"])
         save_pool_csv(pool_csv_path, merged_pool)  # checkpoint after every seed
 
     merged_pool = sorted(route_map.values(), key=lambda r: r["score"])
+    n_pool_before_cap = len(merged_pool)
+
+    # master-pool cap: family-dependent (manuscript: 1400 for R, 600 for C/RC)
+    # unless --master-pool-cap overrides with one fixed number for everything
+    if args.master_pool_cap is not None:
+        cap = args.master_pool_cap
+    else:
+        family = family_of(inst_name)
+        cap = args.master_pool_cap_r if family == "R" else args.master_pool_cap_c_rc
+    if len(merged_pool) > cap:
+        merged_pool = merged_pool[:cap]
+    save_pool_csv(pool_csv_path, merged_pool)
     n_pool = len(merged_pool)
-    print(f"  multi-seed pool: {n_pool} unique routes, best single-seed score={best_single_seed_score}",
-          flush=True)
+    print(f"  multi-seed pool: {n_pool_before_cap} unique routes before cap, "
+          f"{n_pool} after master-pool cap ({cap}), "
+          f"best single-seed score={best_single_seed_score}", flush=True)
 
     result.update({
         "num_seeds": args.num_seeds, "seeds": seeds, "seed_details": seed_details,
         "construction_seconds": t_construction,
+        "family": family_of(inst_name),
+        "pool_size_before_cap": n_pool_before_cap,
+        "master_pool_cap": cap,
         "pool_size": n_pool,
         "best_single_lns_score": best_single_seed_score,
     })
