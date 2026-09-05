@@ -1,0 +1,113 @@
+{
+  "instance": "r109",
+  "keep": 70,
+  "K": 6,
+  "customers": 70,
+  "ortools": {
+    "seconds": 30.006862005218863,
+    "solved": true,
+    "status": "ROUTING_SUCCESS",
+    "score": 8412.500794973379,
+    "time_limit_sec": 30
+  },
+  "num_seeds": 8,
+  "seeds": [
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608
+  ],
+  "seed_details": [
+    {
+      "seed": 601,
+      "n_sets": 180,
+      "best_score": 7999.185629121693,
+      "seconds": 291.8124219244346
+    },
+    {
+      "seed": 602,
+      "n_sets": 180,
+      "best_score": 8071.617709074972,
+      "seconds": 288.7407560059801
+    },
+    {
+      "seed": 603,
+      "n_sets": 180,
+      "best_score": 8071.617709074972,
+      "seconds": 287.41684660036117
+    },
+    {
+      "seed": 604,
+      "n_sets": 180,
+      "best_score": 8071.617709074972,
+      "seconds": 285.63358773849905
+    },
+    {
+      "seed": 605,
+      "n_sets": 180,
+      "best_score": 8071.617709074972,
+      "seconds": 287.09281161800027
+    },
+    {
+      "seed": 606,
+      "n_sets": 180,
+      "best_score": 8071.617709074972,
+      "seconds": 291.5511611588299
+    },
+    {
+      "seed": 607,
+      "n_sets": 180,
+      "best_score": 8054.507143250465,
+      "seconds": 289.8200082266703
+    },
+    {
+      "seed": 608,
+      "n_sets": 180,
+      "best_score": 8068.402827030385,
+      "seconds": 288.6719425134361
+    }
+  ],
+  "construction_seconds": 68.28064449317753,
+  "family": "R",
+  "pool_size_before_cap": 284,
+  "master_pool_cap": 1400,
+  "pool_size": 284,
+  "best_single_lns_score": 7999.185629121693,
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "n_seeds_represented": 8,
+    "seed_origin_counts": {
+      "seed606": 13,
+      "seed605": 24,
+      "seed603": 29,
+      "seed607": 30,
+      "seed608": 37,
+      "seed602": 29,
+      "seed601": 96,
+      "seed604": 26
+    }
+  },
+  "exact": {
+    "seconds": 1.6396341500803828,
+    "feasible": true,
+    "score": 7410.433059054365
+  },
+  "neal": {
+    "seconds": 12.240714334882796,
+    "valid_samples": 2,
+    "num_reads": 1000,
+    "qubo_terms": 40470,
+    "best_score": 7689.44408609474
+  },
+  "swap_annealer": {
+    "seconds": 7.932049022987485,
+    "valid": 176,
+    "restarts": 200,
+    "best_score": 7415.09287102918
+  },
+  "total_seconds": 2435.8307261969894
+}

@@ -1,0 +1,106 @@
+{
+  "instance": "c201",
+  "keep": 100,
+  "K": 3,
+  "customers": 100,
+  "ortools": {
+    "seconds": 30.040332649834454,
+    "solved": true,
+    "status": "ROUTING_SUCCESS",
+    "score": 591.5565566715014,
+    "time_limit_sec": 30
+  },
+  "num_seeds": 8,
+  "seeds": [
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608
+  ],
+  "seed_details": [
+    {
+      "seed": 601,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1402.2971286661923
+    },
+    {
+      "seed": 602,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1395.0989495953545
+    },
+    {
+      "seed": 603,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1412.3387159146369
+    },
+    {
+      "seed": 604,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1395.0007690461352
+    },
+    {
+      "seed": 605,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1404.4106309739873
+    },
+    {
+      "seed": 606,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1413.205756412819
+    },
+    {
+      "seed": 607,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1403.2245666375384
+    },
+    {
+      "seed": 608,
+      "n_sets": 180,
+      "best_score": 591.5565566715014,
+      "seconds": 1404.4809164181352
+    }
+  ],
+  "construction_seconds": 366.1609431859106,
+  "family": "C",
+  "pool_size_before_cap": 3,
+  "master_pool_cap": 600,
+  "pool_size": 3,
+  "best_single_lns_score": 591.5565566715014,
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "n_seeds_represented": 1,
+    "seed_origin_counts": {
+      "seed601": 3
+    }
+  },
+  "exact": {
+    "seconds": 0.00012878235429525375,
+    "feasible": true,
+    "score": 591.5565566715015
+  },
+  "neal": {
+    "seconds": 0.06736210081726313,
+    "valid_samples": 1000,
+    "num_reads": 1000,
+    "qubo_terms": 6,
+    "best_score": 591.5565566715014
+  },
+  "swap_annealer": {
+    "seconds": 0.41672772634774446,
+    "valid": 200,
+    "restarts": 200,
+    "best_score": 591.5565566715014
+  },
+  "total_seconds": 11645.584754668176
+}

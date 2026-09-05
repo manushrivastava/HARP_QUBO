@@ -1,0 +1,107 @@
+{
+  "instance": "c103",
+  "keep": 100,
+  "K": 10,
+  "customers": 100,
+  "ortools": {
+    "seconds": 30.022979549132288,
+    "solved": true,
+    "status": "ROUTING_SUCCESS",
+    "score": 858.1250658591778,
+    "time_limit_sec": 30
+  },
+  "num_seeds": 8,
+  "seeds": [
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608
+  ],
+  "seed_details": [
+    {
+      "seed": 601,
+      "n_sets": 180,
+      "best_score": 841.0048469688037,
+      "seconds": 331.9278958896175
+    },
+    {
+      "seed": 602,
+      "n_sets": 180,
+      "best_score": 837.1805516698831,
+      "seconds": 334.0082146823406
+    },
+    {
+      "seed": 603,
+      "n_sets": 180,
+      "best_score": 838.1050886560259,
+      "seconds": 332.80385321192443
+    },
+    {
+      "seed": 604,
+      "n_sets": 180,
+      "best_score": 837.1805516698831,
+      "seconds": 334.9468223247677
+    },
+    {
+      "seed": 605,
+      "n_sets": 180,
+      "best_score": 834.4723944463623,
+      "seconds": 331.59325172938406
+    },
+    {
+      "seed": 606,
+      "n_sets": 180,
+      "best_score": 841.5434622582278,
+      "seconds": 336.86023086402565
+    },
+    {
+      "seed": 607,
+      "n_sets": 180,
+      "best_score": 835.1359500099494,
+      "seconds": 331.70592451188713
+    },
+    {
+      "seed": 608,
+      "n_sets": 180,
+      "best_score": 834.4723944463623,
+      "seconds": 330.8691845210269
+    }
+  ],
+  "construction_seconds": 164.58341986127198,
+  "family": "C",
+  "pool_size_before_cap": 16,
+  "master_pool_cap": 600,
+  "pool_size": 16,
+  "best_single_lns_score": 834.4723944463623,
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "n_seeds_represented": 2,
+    "seed_origin_counts": {
+      "seed602": 1,
+      "seed601": 15
+    }
+  },
+  "exact": {
+    "seconds": 0.0003370773047208786,
+    "feasible": true,
+    "score": 828.0648821980838
+  },
+  "neal": {
+    "seconds": 0.232803450897336,
+    "valid_samples": 248,
+    "num_reads": 1000,
+    "qubo_terms": 136,
+    "best_score": 828.0648821980839
+  },
+  "swap_annealer": {
+    "seconds": 4.353697427548468,
+    "valid": 200,
+    "restarts": 200,
+    "best_score": 828.0648821980839
+  },
+  "total_seconds": 2869.112700097263
+}

@@ -1,0 +1,184 @@
+nohup: ignoring input
+Sweeping 45 instances x 2 keep-level(s) = 90 jobs, 20 parallel workers
+[c102_keep100] K=10 customers=100
+[c103_keep70] K=7 customers=70
+[c102_keep70] K=7 customers=70
+[c104_keep70] K=7 customers=70
+[c104_keep100] K=10 customers=100
+[c106_keep70] K=7 customers=70
+[c101_keep70] K=7 customers=70
+[c101_keep100] K=10 customers=100
+[c201_keep100] K=3 customers=100
+[c103_keep100] K=10 customers=100
+[c107_keep100] K=10 customers=100
+[c108_keep70] K=7 customers=70
+[c105_keep70] K=7 customers=70
+[c105_keep100] K=10 customers=100
+[c109_keep70] K=7 customers=70
+[c201_keep70] K=2 customers=70
+[c107_keep70] K=7 customers=70
+[c108_keep100] K=10 customers=100
+[c109_keep100] K=10 customers=100
+[c106_keep100] K=10 customers=100
+  ortools: 30.0s solved=True score=607.697779248602
+  ortools: 30.0s solved=True score=828.9368669428338
+  ortools: 30.0s solved=True score=813.1133220067422
+  ortools: 30.0s solved=True score=607.6977792486019
+  ortools: 30.0s solved=True score=635.0347302047791
+  ortools: 30.0s solved=True score=608.7737696654073
+  ortools: 30.0s solved=True score=828.936866942834
+  ortools: 30.0s solved=True score=604.4096052718108
+  ortools: 30.0s solved=True score=828.936866942834
+  ortools: 30.0s solved=True score=608.7737696654074
+  ortools: 30.0s solved=True score=858.130927225105
+  ortools: 30.0s solved=True score=608.7737696654074
+  ortools: 30.0s solved=True score=608.7737696654073
+  ortools: 30.0s solved=True score=828.9368669428341
+  ortools: 30.0s solved=True score=591.5565566715014
+  ortools: 30.0s solved=True score=49135.63971681056
+  ortools: 30.0s solved=True score=828.9368669428338
+  ortools: 30.0s solved=True score=828.9368669428338
+  ortools: 30.0s solved=True score=881.0439401677227
+  ortools: 30.1s solved=True score=867.5197678092924
+  construction: 774 partitions built (53.0s), using best 90 as LNS starts
+  construction: 775 partitions built (56.4s), using best 90 as LNS starts
+  construction: 774 partitions built (56.4s), using best 90 as LNS starts
+  construction: 775 partitions built (56.6s), using best 90 as LNS starts
+  construction: 772 partitions built (56.7s), using best 90 as LNS starts
+  construction: 775 partitions built (56.9s), using best 90 as LNS starts
+  construction: 775 partitions built (58.3s), using best 90 as LNS starts
+  construction: 775 partitions built (60.5s), using best 90 as LNS starts
+  construction: 774 partitions built (61.1s), using best 90 as LNS starts
+  construction: 864 partitions built (124.5s), using best 90 as LNS starts
+  construction: 726 partitions built (149.3s), using best 90 as LNS starts
+  construction: 725 partitions built (161.6s), using best 90 as LNS starts
+  construction: 723 partitions built (167.7s), using best 90 as LNS starts
+  construction: 724 partitions built (169.0s), using best 90 as LNS starts
+  construction: 726 partitions built (169.0s), using best 90 as LNS starts
+  construction: 722 partitions built (169.1s), using best 90 as LNS starts
+  construction: 726 partitions built (169.3s), using best 90 as LNS starts
+  construction: 725 partitions built (169.3s), using best 90 as LNS starts
+  construction: 725 partitions built (171.0s), using best 90 as LNS starts
+  seed=601: 180 LNS sets, best=608.8799677951026 (212.8s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654074 (214.7s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=607.6977792486019 (223.0s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654074 (224.1s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654074 (228.5s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654074 (227.7s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654073 (233.2s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654073 (232.0s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=608.7737696654074 (238.6s)
+  seed=601: guarded repair accepted 12/12 sets
+  construction: 864 partitions built (369.9s), using best 90 as LNS starts
+  seed=601: 180 LNS sets, best=865.1043626168454 (313.9s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=610.0714147568754 (212.2s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=608.7737696654074 (214.9s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=841.0048469688037 (334.1s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=828.9368669428338 (328.3s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=607.6977792486019 (222.3s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=865.5769886828524 (334.9s)
+  seed=601: 180 LNS sets, best=858.5902113547937 (331.7s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=828.9368669428338 (338.8s)
+  seed=602: 180 LNS sets, best=608.7737696654074 (227.0s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=828.9368669428338 (340.5s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=608.7737696654074 (226.6s)
+  seed=602: 180 LNS sets, best=609.987361597288 (227.5s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=828.9368669428338 (344.8s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=828.9368669428338 (347.6s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=608.7737696654074 (233.4s)
+  seed=602: 180 LNS sets, best=608.7737696654073 (231.2s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=608.7737696654074 (241.5s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=612.1846001114894 (211.5s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654074 (215.9s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=607.6977792486019 (223.7s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654074 (223.8s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654074 (228.8s)
+  seed=603: 180 LNS sets, best=607.6977792486019 (228.9s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654073 (232.9s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654074 (235.0s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=856.4039049818783 (316.7s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=608.7737696654074 (241.1s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (326.4s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (323.6s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=837.1805516698831 (335.5s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=865.5769886828524 (334.8s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (333.9s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (337.9s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (341.9s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=602: 180 LNS sets, best=828.9368669428338 (343.0s)
+  seed=602: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=609.9559582119081 (214.1s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654074 (215.3s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=607.6977792486019 (221.6s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654074 (222.3s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654074 (225.4s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654074 (228.6s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654073 (230.4s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654073 (233.3s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=604: 180 LNS sets, best=608.7737696654074 (239.7s)
+  seed=604: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=855.4508605724918 (316.1s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=605: 180 LNS sets, best=609.9559582119081 (211.4s)
+  seed=605: guarded repair accepted 12/12 sets
+  seed=605: 180 LNS sets, best=608.7737696654074 (213.5s)
+  seed=605: guarded repair accepted 12/12 sets
+  seed=601: 180 LNS sets, best=47938.403083574456 (1022.8s)
+  seed=601: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=862.5173537221133 (323.8s)
+  seed=603: guarded repair accepted 12/12 sets
+  seed=603: 180 LNS sets, best=828.9368669428338 (339.0s)
+  seed=605: 180 LNS sets, best=608.7737696654074 (223.2s)
+  seed=605: guarded repair accepted 12/12 sets
+  seed=603: guarded repair accepted 12/12 sets

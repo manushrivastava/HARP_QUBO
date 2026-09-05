@@ -1,0 +1,65 @@
+{
+  "instance": "r101",
+  "keep": 100,
+  "K": 8,
+  "customers": 100,
+  "ortools": {
+    "seconds": 30.020650898106396,
+    "solved": true,
+    "status": "ROUTING_SUCCESS",
+    "score": 25142.59004204888,
+    "time_limit_sec": 30
+  },
+  "num_seeds": 2,
+  "seeds": [
+    601,
+    602
+  ],
+  "seed_details": [
+    {
+      "seed": 601,
+      "n_sets": 180,
+      "best_score": 24944.603810294382,
+      "seconds": 8.32936233188957
+    },
+    {
+      "seed": 602,
+      "n_sets": 180,
+      "best_score": 24628.90881451196,
+      "seconds": 8.421883549541235
+    }
+  ],
+  "construction_seconds": 186.8807512698695,
+  "family": "R",
+  "pool_size_before_cap": 273,
+  "master_pool_cap": 1400,
+  "pool_size": 273,
+  "best_single_lns_score": 24628.90881451196,
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "n_seeds_represented": 2,
+    "seed_origin_counts": {
+      "seed601": 167,
+      "seed602": 106
+    }
+  },
+  "exact": {
+    "seconds": 2.347532565705478,
+    "feasible": true,
+    "score": 23991.99648887482
+  },
+  "neal": {
+    "seconds": 11.750961527228355,
+    "valid_samples": 0,
+    "num_reads": 1000,
+    "qubo_terms": 37401,
+    "best_score": null
+  },
+  "swap_annealer": {
+    "seconds": 11.028743546456099,
+    "valid": 59,
+    "restarts": 200,
+    "best_score": 24036.408029693663
+  },
+  "total_seconds": 259.41038595698774
+}
