@@ -337,13 +337,26 @@ def run(args):
             t0 = time.perf_counter()
             exact_result = solve_route_pool_exact(inst, merged_pool, tw_weight=args.tw_weight)
             t_exact = time.perf_counter() - t0
+            exact_score = exact_result["score"] if exact_result else None
+            beats_single_seed = (
+                exact_score is not None and best_single_seed_score is not None
+                and exact_score < best_single_seed_score - 1e-9
+            )
+            improvement = (
+                best_single_seed_score - exact_score
+                if beats_single_seed else None
+            )
             result["exact"] = {
                 "seconds": t_exact,
                 "feasible": exact_result is not None,
-                "score": exact_result["score"] if exact_result else None,
+                "score": exact_score,
+                "beats_best_single_seed": beats_single_seed,
+                "improvement_over_best_single_seed": improvement,
             }
             print(f"  exact: {t_exact:.1f}s feasible={exact_result is not None} "
-                  f"score={exact_result['score'] if exact_result else None}", flush=True)
+                  f"score={exact_score}  beats_best_single_seed={beats_single_seed}"
+                  + (f" (improvement={improvement:.2f})" if improvement is not None else ""),
+                  flush=True)
         else:
             result["exact"] = {"skipped": "pool does not cover all customers"}
     else:

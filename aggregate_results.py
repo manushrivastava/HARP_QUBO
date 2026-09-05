@@ -40,6 +40,7 @@ def write_summary(output_dir, all_results):
             "best_single_lns_score",
             "ortools_seconds", "ortools_solved", "ortools_score",
             "exact_seconds", "exact_feasible", "exact_score",
+            "exact_beats_best_single_seed", "improvement_over_best_single_seed",
             "neal_seconds", "neal_valid_samples", "neal_num_reads", "neal_best_score",
             "swap_seconds", "swap_valid", "swap_restarts", "swap_best_score",
             "total_seconds",
@@ -56,6 +57,7 @@ def write_summary(output_dir, all_results):
                 r["best_single_lns_score"],
                 ortools.get("seconds"), ortools.get("solved"), ortools.get("score"),
                 exact.get("seconds"), exact.get("feasible"), exact.get("score"),
+                exact.get("beats_best_single_seed"), exact.get("improvement_over_best_single_seed"),
                 neal.get("seconds"), neal.get("valid_samples"), neal.get("num_reads"), neal.get("best_score"),
                 swap.get("seconds"), swap.get("valid"), swap.get("restarts"), swap.get("best_score"),
                 r.get("total_seconds"),
@@ -81,6 +83,7 @@ def write_family_summary(output_dir, all_results):
             "family", "n_cases",
             "exact_feasible_rate", "mean_exact_score", "mean_exact_seconds",
             "n_exact_skipped",
+            "n_exact_beats_single_seed", "mean_improvement_over_single_seed",
             "mean_neal_valid_rate", "mean_neal_best_score",
             "mean_swap_valid_rate", "mean_swap_best_score",
             "ortools_solved_rate", "mean_ortools_score",
@@ -112,10 +115,13 @@ def write_family_summary(output_dir, all_results):
                 if r.get("exact", {}).get("score") is not None and r.get("ortools", {}).get("score") is not None
                 and r["exact"]["score"] <= r["ortools"]["score"] + 1e-6
             )
+            n_beats_single_seed = sum(1 for e in attempted if e.get("beats_best_single_seed"))
+            improvements = [e.get("improvement_over_best_single_seed") for e in attempted]
             w.writerow([
                 fam, n,
                 _mean(exact_feas), _mean(exact_scores), _mean(exact_seconds),
                 n_skipped,
+                n_beats_single_seed, _mean(improvements),
                 _mean(neal_rates), _mean(neal_scores),
                 _mean(swap_rates), _mean(swap_scores),
                 _mean(ort_solved), _mean(ort_scores),
