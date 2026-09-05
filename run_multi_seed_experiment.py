@@ -57,6 +57,7 @@ from route_pool_qubo_vrptw import (
 )
 from probe_strong_route_pool_repair import lns_route_sets, add_route_set
 from swap_move_annealer import swap_anneal
+from compare_with_ortools import solve_case
 
 DEFAULT_SOL_DIR = os.path.join(os.path.dirname(__file__), "data", "solomon-100")
 
@@ -106,6 +107,12 @@ def build_args(parser=None):
     parser.add_argument("--swap-restarts", type=int, default=200)
     parser.add_argument("--swap-steps", type=int, default=5000)
 
+    # OR-Tools benchmark (same convention as the original pipeline)
+    parser.add_argument("--run-ortools", dest="run_ortools", action="store_true", default=True)
+    parser.add_argument("--no-ortools", dest="run_ortools", action="store_false")
+    parser.add_argument("--ortools-time-limit", type=int, default=30)
+    parser.add_argument("--ortools-scale", type=int, default=1000)
+
     parser.add_argument("--output-dir", default="results/multi_seed")
     parser.add_argument("--no-progress", action="store_true")
     return parser
@@ -143,6 +150,28 @@ def run(args):
     result_json_path = os.path.join(out_dir, "result.json")
 
     print(f"[{inst_name}_keep{args.keep}] K={K} customers={n_customers}", flush=True)
+
+    result = {
+        "instance": inst_name, "keep": args.keep, "K": K, "customers": n_customers,
+    }
+
+    # --- OR-Tools benchmark (independent of the LNS pool -- solves the instance directly) ---
+    if args.run_ortools:
+        t0 = time.perf_counter()
+        ort = solve_case(
+            inst, vehicles=K, hard_time_windows=False,
+            time_limit_sec=args.ortools_time_limit,
+            soft_lateness_penalty=args.tw_weight, scale=args.ortools_scale,
+        )
+        t_ortools = time.perf_counter() - t0
+        ort_score = routes_score(inst, ort["routes"], args.tw_weight) if ort["solved"] else None
+        result["ortools"] = {
+            "seconds": t_ortools, "solved": ort["solved"], "status": ort["status"], "score": ort_score,
+            "time_limit_sec": args.ortools_time_limit,
+        }
+        print(f"  ortools: {t_ortools:.1f}s solved={ort['solved']} score={ort_score}", flush=True)
+    else:
+        result["ortools"] = {"skipped": "--no-ortools"}
 
     # --- Step 1: construction-stage starts ---
     t0 = time.perf_counter()
@@ -196,13 +225,12 @@ def run(args):
     print(f"  multi-seed pool: {n_pool} unique routes, best single-seed score={best_single_seed_score}",
           flush=True)
 
-    result = {
-        "instance": inst_name, "keep": args.keep, "K": K, "customers": n_customers,
+    result.update({
         "num_seeds": args.num_seeds, "seeds": seeds, "seed_details": seed_details,
         "construction_seconds": t_construction,
         "pool_size": n_pool,
         "best_single_lns_score": best_single_seed_score,
-    }
+    })
 
     # --- Step 5a: exact solver (bounded) ---
     if n_pool <= args.max_exact_n:

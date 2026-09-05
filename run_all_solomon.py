@@ -63,7 +63,9 @@ def main():
     parser.add_argument("--sol-dir", default=DEFAULT_SOL_DIR)
     parser.add_argument("--instances", default="", help="comma-separated subset, e.g. r101,r102 "
                                                           "(default: all instances found in --sol-dir)")
-    parser.add_argument("--keep", default="100", help="comma-separated keep levels, e.g. 70,100")
+    parser.add_argument("--keep", default="70,100", help="comma-separated keep levels, e.g. 70,100")
+    parser.add_argument("--no-ortools", action="store_true", help="skip the OR-Tools benchmark solve")
+    parser.add_argument("--ortools-time-limit", type=int, default=30)
     parser.add_argument("--num-seeds", type=int, default=8)
     parser.add_argument("--seed-base", type=int, default=601)
     parser.add_argument("--lns-iterations", type=int, default=120)
@@ -85,6 +87,7 @@ def main():
                 "instance": inst, "keep": keep, "sol_dir": args.sol_dir,
                 "num_seeds": args.num_seeds, "seed_base": args.seed_base,
                 "lns_iterations": args.lns_iterations, "max_exact_n": args.max_exact_n,
+                "run_ortools": not args.no_ortools, "ortools_time_limit": args.ortools_time_limit,
                 "output_dir": args.output_dir, "no_progress": True,
             })
 
@@ -113,18 +116,21 @@ def main():
         w.writerow([
             "instance", "keep", "K", "customers", "num_seeds", "pool_size",
             "best_single_lns_score",
+            "ortools_seconds", "ortools_solved", "ortools_score",
             "exact_seconds", "exact_feasible", "exact_score",
             "neal_seconds", "neal_valid_samples", "neal_num_reads", "neal_best_score",
             "swap_seconds", "swap_valid", "swap_restarts", "swap_best_score",
             "total_seconds",
         ])
         for r in sorted(all_results, key=lambda r: (r["instance"], r["keep"])):
+            ortools = r.get("ortools", {})
             exact = r.get("exact", {})
             neal = r.get("neal", {})
             swap = r.get("swap_annealer", {})
             w.writerow([
                 r["instance"], r["keep"], r["K"], r["customers"], r["num_seeds"], r["pool_size"],
                 r["best_single_lns_score"],
+                ortools.get("seconds"), ortools.get("solved"), ortools.get("score"),
                 exact.get("seconds"), exact.get("feasible"), exact.get("score"),
                 neal.get("seconds"), neal.get("valid_samples"), neal.get("num_reads"), neal.get("best_score"),
                 swap.get("seconds"), swap.get("valid"), swap.get("restarts"), swap.get("best_score"),
