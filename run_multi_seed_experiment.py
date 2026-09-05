@@ -153,7 +153,11 @@ def load_pool_csv(path):
     rows = []
     with open(path, newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            rows.append({"route": [int(t) for t in row["route"].split("-")], "score": float(row["score"])})
+            rows.append({
+                "route": [int(t) for t in row["route"].split("-")],
+                "score": float(row["score"]),
+                "source": row.get("source", ""),
+            })
     return rows
 
 
@@ -161,9 +165,9 @@ def save_pool_csv(path, pool):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["route", "score"])
+        w.writerow(["route", "score", "source"])
         for r in pool:
-            w.writerow(["-".join(str(c) for c in r["route"]), r["score"]])
+            w.writerow(["-".join(str(c) for c in r["route"]), r["score"], r.get("source", "")])
 
 
 def run(args):
@@ -246,7 +250,7 @@ def run(args):
         seed_details.append({"seed": seed, "n_sets": len(lns_sets), "best_score": seed_best, "seconds": elapsed})
         print(f"  seed={seed}: {len(lns_sets)} LNS sets, best={seed_best} ({elapsed:.1f}s)", flush=True)
         for row in lns_sets:
-            add_route_set(route_map, inst, row["routes"], row["source"], args.tw_weight)
+            add_route_set(route_map, inst, row["routes"], f"seed{seed}_{row['source']}", args.tw_weight)
 
         # guarded repair on this seed's top --guarded-repair-sets LNS sets
         # (manuscript Algorithm 2, lines 17-21: intra-route + relocate + swap
@@ -270,7 +274,7 @@ def run(args):
                 covered |= cs
             if ok and covered == set(inst["kept_ids"]):
                 n_guarded_accepted += 1
-                add_route_set(route_map, inst, repaired, f"{row['source']}_guarded", args.tw_weight)
+                add_route_set(route_map, inst, repaired, f"seed{seed}_{row['source']}_guarded", args.tw_weight)
         print(f"  seed={seed}: guarded repair accepted {n_guarded_accepted}/"
               f"{min(args.guarded_repair_sets, len(lns_sets))} sets", flush=True)
 
@@ -295,6 +299,20 @@ def run(args):
           f"{n_pool} after master-pool cap ({cap}), "
           f"best single-seed score={best_single_seed_score}", flush=True)
 
+    # --- verification: no duplicates, and routes genuinely trace back to
+    # multiple different seeds (not just one seed dominating) ---
+    customer_sets = [frozenset(route_key(r["route"])) for r in merged_pool]
+    n_duplicate_customer_sets = len(customer_sets) - len(set(customer_sets))
+    seed_origin_counts = {}
+    for r in merged_pool:
+        src = r.get("source", "")
+        seed_tag = src.split("_", 1)[0] if src.startswith("seed") else "unknown"
+        seed_origin_counts[seed_tag] = seed_origin_counts.get(seed_tag, 0) + 1
+    n_seeds_represented = len([k for k in seed_origin_counts if k != "unknown"])
+    print(f"  verification: {n_duplicate_customer_sets} duplicate customer-sets in pool "
+          f"(should be 0); routes trace back to {n_seeds_represented}/{args.num_seeds} "
+          f"distinct seeds: {seed_origin_counts}", flush=True)
+
     result.update({
         "num_seeds": args.num_seeds, "seeds": seeds, "seed_details": seed_details,
         "construction_seconds": t_construction,
@@ -303,6 +321,11 @@ def run(args):
         "master_pool_cap": cap,
         "pool_size": n_pool,
         "best_single_lns_score": best_single_seed_score,
+        "verification": {
+            "n_duplicate_customer_sets": n_duplicate_customer_sets,
+            "n_seeds_represented": n_seeds_represented,
+            "seed_origin_counts": seed_origin_counts,
+        },
     })
 
     # --- Step 5a: exact solver (bounded) ---
