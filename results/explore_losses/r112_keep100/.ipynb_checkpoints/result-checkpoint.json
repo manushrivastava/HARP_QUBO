@@ -1,0 +1,66 @@
+{
+  "instance": "r112",
+  "keep": 100,
+  "K": 8,
+  "customers": 100,
+  "family": "R",
+  "baseline_pool_size": 509,
+  "target_pool_size": 1000,
+  "pool_size": 1109,
+  "target_reached": true,
+  "n_new_seeds": 1,
+  "seed_start": 701,
+  "insertion_noise": 0.2,
+  "remove_counts": "10,15,20,25",
+  "seed_details": [
+    {
+      "seed": 701,
+      "n_sets": 180,
+      "best_score": 4499.43029664497,
+      "seconds": 3143.3201945815235,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 1109
+    }
+  ],
+  "construction_seconds": 193.05066868662834,
+  "ortools_score": 3402.404176877443,
+  "ortools_source": "carried over from baseline result.json (OR-Tools is independent of the route pool, not re-solved here)",
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "seed_origin_counts": {
+      "seed701": 610,
+      "seed601": 134,
+      "seed602": 112,
+      "seed604": 48,
+      "seed603": 59,
+      "seed608": 28,
+      "seed605": 41,
+      "seed606": 46,
+      "seed607": 31
+    }
+  },
+  "exact": {
+    "seconds": 745.2883793003857,
+    "timed_out": false,
+    "feasible": true,
+    "score": 3580.537674351488,
+    "beats_ortools": false,
+    "margin_vs_ortools": -178.13349747404482
+  },
+  "neal": {
+    "seconds": 182.83050044067204,
+    "valid_samples": 0,
+    "num_reads": 1000,
+    "qubo_terms": 615495,
+    "best_score": null,
+    "beats_ortools": false
+  },
+  "swap_annealer": {
+    "seconds": 11.513988271355629,
+    "valid": 4,
+    "restarts": 200,
+    "best_score": 4701.431392239134,
+    "beats_ortools": false
+  },
+  "total_seconds": 4277.152882440016
+}

@@ -1,0 +1,128 @@
+{
+  "instance": "rc101",
+  "keep": 70,
+  "K": 7,
+  "customers": 70,
+  "family": "RC",
+  "baseline_pool_size": 90,
+  "target_pool_size": 1000,
+  "pool_size": 1077,
+  "target_reached": true,
+  "n_new_seeds": 8,
+  "seed_start": 701,
+  "insertion_noise": 0.2,
+  "remove_counts": "10,15,20,25",
+  "seed_details": [
+    {
+      "seed": 701,
+      "n_sets": 180,
+      "best_score": 5807.890597191161,
+      "seconds": 1713.2767220428213,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 327
+    },
+    {
+      "seed": 702,
+      "n_sets": 180,
+      "best_score": 5721.36637637408,
+      "seconds": 1705.5877204528078,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 474
+    },
+    {
+      "seed": 703,
+      "n_sets": 180,
+      "best_score": 5721.36637637408,
+      "seconds": 1677.6639401409775,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 616
+    },
+    {
+      "seed": 704,
+      "n_sets": 180,
+      "best_score": 5804.691993469338,
+      "seconds": 1682.144038184546,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 730
+    },
+    {
+      "seed": 705,
+      "n_sets": 180,
+      "best_score": 5768.622772336111,
+      "seconds": 1670.134489347227,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 818
+    },
+    {
+      "seed": 706,
+      "n_sets": 180,
+      "best_score": 5846.555700608008,
+      "seconds": 1671.2687282096595,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 901
+    },
+    {
+      "seed": 707,
+      "n_sets": 180,
+      "best_score": 5777.539216534731,
+      "seconds": 1696.8617466203868,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 987
+    },
+    {
+      "seed": 708,
+      "n_sets": 180,
+      "best_score": 5888.1251543835015,
+      "seconds": 1670.7030149661005,
+      "n_guarded_accepted": 12,
+      "pool_size_after": 1077
+    }
+  ],
+  "construction_seconds": 59.85469311941415,
+  "ortools_score": 5282.690612978183,
+  "ortools_source": "carried over from baseline result.json (OR-Tools is independent of the route pool, not re-solved here)",
+  "verification": {
+    "n_duplicate_customer_sets": 0,
+    "seed_origin_counts": {
+      "seed707": 97,
+      "seed701": 231,
+      "seed702": 144,
+      "seed703": 139,
+      "seed705": 89,
+      "seed704": 117,
+      "seed601": 36,
+      "seed708": 96,
+      "seed706": 84,
+      "seed604": 14,
+      "seed607": 3,
+      "seed603": 6,
+      "seed608": 8,
+      "seed605": 8,
+      "seed602": 5
+    }
+  },
+  "exact": {
+    "seconds": 88.8801629031077,
+    "timed_out": false,
+    "feasible": true,
+    "score": 5323.744910740532,
+    "beats_ortools": false,
+    "margin_vs_ortools": -41.05429776234905
+  },
+  "neal": {
+    "seconds": 127.9624683111906,
+    "valid_samples": 0,
+    "num_reads": 1000,
+    "qubo_terms": 580503,
+    "best_score": null,
+    "beats_ortools": false
+  },
+  "swap_annealer": {
+    "seconds": 8.206357250921428,
+    "valid": 17,
+    "restarts": 200,
+    "best_score": 6072.2451390185015,
+    "beats_ortools": false
+  },
+  "total_seconds": 13775.376988828182
+}
